@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}Delivery Address | Dhee Quick Bites{% endblock %}
+
+{% block content %}
+<section class="container section reveal">
+    <div class="section-head">
+        <div>
+            <h1 class="page-title">Delivery address</h1>
+            <p class="section-subtitle">Choose a saved address or enter a new one with a cleaner, guided form.</p>
+        </div>
+        <a class="button button-ghost" href="{% url 'view_cart' %}"><i class='bx bx-cart'></i> Back to cart</a>
+    </div>
+
+    <div class="address-layout">
+        <section class="panel reveal">
+            <h2 class="panel-title">Saved addresses</h2>
+            {% if previous_addresses %}
+                <form method="post" class="field-group">
+                    {% csrf_token %}
+                    <div class="address-list">
+                        {% for addr in previous_addresses %}
+                            <label class="address-card address-choice">
+                                <div>
+                                    <div class="inline-actions" style="align-items:center;">
+                                        <input type="radio" name="selected_address" value="{{ addr.id }}">
+                                        <strong>{{ addr.name }}</strong>
+                                    </div>
+                                    <p class="muted">
+                                        {{ addr.phone }} · {{ addr.area }}, {{ addr.city }}, {{ addr.district }}, {{ addr.zipcode }}
+                                        {% if addr.landmark %}<br>Landmark: {{ addr.landmark }}{% endif %}
+                                    </p>
+                                </div>
+                                <button type="button" class="button button-ghost" onclick="deleteAddress({{ addr.id }})"><i class='bx bx-trash'></i> Delete</button>
+                            </label>
+                        {% endfor %}
+                    </div>
+                    <button type="submit" class="button button-primary"><i class='bx bx-check-shield'></i> Use selected address</button>
+                </form>
+            {% else %}
+                <p class="muted">No saved addresses yet. The form on the right will create your first one.</p>
+            {% endif %}
+        </section>
+
+        <section class="form-card reveal">
+            <h2 class="panel-title">New address</h2>
+            <form method="post" class="field-group">
+                {% csrf_token %}
+                <div class="field-grid">
+                    <div class="field">
+                        <label for="name">Full name</label>
+                        <input id="name" type="text" name="name" placeholder="Aarav Kumar" required>
+                    </div>
+                    <div class="field">
+                        <label for="phone">Phone</label>
+                        <input id="phone" type="text" name="phone" placeholder="9876543210" required>
+                    </div>
+                </div>
+                <div class="field-grid">
+                    <div class="field">
+                        <label for="area">Area</label>
+                        <input id="area" type="text" name="area" placeholder="Indiranagar" required>
+                    </div>
+                    <div class="field">
+                        <label for="city">City</label>
+                        <input id="city" type="text" name="city" placeholder="Bengaluru" required>
+                    </div>
+                </div>
+                <div class="field-grid">
+                    <div class="field">
+                        <label for="district">District</label>
+                        <input id="district" type="text" name="district" placeholder="Bangalore Urban" required>
+                    </div>
+                    <div class="field">
+                        <label for="zipcode">Zip code</label>
+                        <input id="zipcode" type="text" name="zipcode" placeholder="560038" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="landmark">Landmark</label>
+                    <input id="landmark" type="text" name="landmark" placeholder="Near metro station">
+                </div>
+                <button type="submit" class="button button-primary"><i class='bx bx-navigation'></i> Continue</button>
+            </form>
+        </section>
+    </div>
+</section>
+{% endblock %}

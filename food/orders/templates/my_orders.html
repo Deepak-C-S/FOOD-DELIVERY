@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %}My Orders | Dhee Quick Bites{% endblock %}
+
+{% block content %}
+<section class="container section reveal">
+    <div class="section-head">
+        <div>
+            <h1 class="page-title">My orders</h1>
+            <p class="section-subtitle">Review past deliveries in a cleaner timeline view.</p>
+        </div>
+        <a class="button button-ghost" href="{% url 'home' %}"><i class='bx bx-store-alt'></i> Back to menu</a>
+    </div>
+
+    <div class="order-grid">
+        {% for order in orders %}
+            <article class="order-card reveal">
+                <div class="section-head" style="margin-bottom: 12px;">
+                    <div>
+                        <h3 class="panel-title">Order #{{ order.id }}</h3>
+                        <p class="muted">Placed on {{ order.created_at }}</p>
+                    </div>
+                    <div class="summary-total">Rs.{{ order.total_price }}</div>
+                </div>
+
+                <div class="order-grid">
+                    <div>
+                        <h4 class="panel-title" style="font-size: 1rem;">Items</h4>
+                        <ul class="order-item-list">
+                            {% for item in order.items.all %}
+                                <li>{{ item.food_item.name }} × {{ item.quantity }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="panel-title" style="font-size: 1rem;">Delivery address</h4>
+                        <p class="muted" style="margin:0;">
+                            {{ order.address.name }} · {{ order.address.phone }}<br>
+                            {{ order.address.area }}, {{ order.address.city }}<br>
+                            {{ order.address.district }} · {{ order.address.zipcode }}
+                            {% if order.address.landmark %}<br>Landmark: {{ order.address.landmark }}{% endif %}
+                        </p>
+                    </div>
+                    <div>
+                        <button type="button" class="button button-ghost" onclick="deleteOrder({{ order.id }})"><i class='bx bx-trash'></i> Delete history</button>
+                    </div>
+                </div>
+            </article>
+        {% empty %}
+            <div class="panel empty-state">
+                <h3 class="panel-title">No orders yet</h3>
+                <p>Once you place an order, the history will appear here.</p>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

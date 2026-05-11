@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Cart | Dhee Quick Bites{% endblock %}
+
+{% block content %}
+<section class="container section reveal">
+    <div class="section-head">
+        <div>
+            <h1 class="page-title">Your cart</h1>
+            <p class="section-subtitle">Review quantities, compare the total, and move to delivery when you're ready.</p>
+        </div>
+        <a class="button button-ghost" href="{% url 'home' %}"><i class='bx bx-left-arrow-alt'></i> Continue browsing</a>
+    </div>
+
+    <div class="cart-layout">
+        <div class="summary-card">
+            {% for item in cart_items %}
+                <article class="cart-item reveal">
+                    <img class="cart-thumb" src="{{ item.food_item.image.url }}" alt="{{ item.food_item.name }}">
+                    <div class="cart-details">
+                        <h3>{{ item.food_item.name }}</h3>
+                        <p class="muted">Rs.{{ item.food_item.price }} each · Line total Rs.{{ item.total_price }}</p>
+                    </div>
+                    <div class="cart-actions">
+                        <input type="number" min="1" value="{{ item.quantity }}" id="qty-{{ item.id }}" class="quantity-input">
+                        <button type="button" class="button button-secondary" onclick="updateQuantity({{ item.id }})"><i class='bx bx-refresh'></i> Update</button>
+                        <button type="button" class="button button-ghost" onclick="deleteItem({{ item.id }})"><i class='bx bx-trash'></i> Remove</button>
+                    </div>
+                </article>
+            {% empty %}
+                <div class="empty-state" id="empty-cart-msg">
+                    <h3 class="panel-title">Your cart is empty</h3>
+                    <p>Add a few items from the menu to build your order.</p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <aside class="panel cart-summary reveal">
+            <h2 class="panel-title">Order summary</h2>
+            <div class="summary-line">
+                <span>Items</span>
+                <span>{{ cart_items|length }}</span>
+            </div>
+            <div class="summary-line">
+                <span>Delivery</span>
+                <span>Calculated at checkout</span>
+            </div>
+            <div class="summary-line summary-total">
+                <span>Total</span>
+                <span>Rs.{{ total_price }}</span>
+            </div>
+            <p class="muted">Proceed to the address step to complete delivery details and payment.</p>
+            <a class="button button-primary" id="place-order-btn" href="{% url 'address' %}"><i class='bx bx-map-pin'></i> Place order</a>
+            <div id="payment-options" class="payment-options">
+                <button type="button" class="button button-secondary" onclick="submitOrder('cod')"><i class='bx bx-wallet'></i> Cash on delivery</button>
+                <button type="button" class="button button-primary" onclick="submitOrder('online')"><i class='bx bx-credit-card'></i> Online payment</button>
+            </div>
+        </aside>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Dhee Quick Bites{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.boxicons.com/fonts/basic/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <div class="bg-shape bg-shape-one"></div>
+    <div class="bg-shape bg-shape-two"></div>
+    <header class="topbar">
+        <div class="container topbar-inner">
+            <a class="brand" href="{% url 'home' %}">
+                <span class="brand-mark"><i class='bx bx-bowl-hot'></i></span>
+                <span>
+                    <strong>Dhee Quick Bites</strong>
+                    <small>Modern food ordering experience</small>
+                </span>
+            </a>
+            <nav class="topnav">
+                <a href="{% url 'home' %}" class="nav-link">Explore</a>
+                <a href="{% url 'view_cart' %}" class="nav-link">Cart</a>
+                <a href="{% url 'my_orders' %}" class="nav-link">Orders</a>
+                <a href="{% url 'address' %}" class="button button-ghost nav-cta">Delivery</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="page-shell">
+        {% block content %}{% endblock %}
+    </main>
+
+    <div id="custom-popup" class="overlay-modal" aria-hidden="true">
+        <div class="modal-card">
+            <div class="modal-icon"><i class='bx bx-info-circle'></i></div>
+            <p id="custom-popup-message" class="modal-message"></p>
+            <button id="custom-popup-ok" class="button button-primary">OK</button>
+        </div>
+    </div>
+
+    <div id="app-toast" class="toast" aria-live="polite" aria-atomic="true"></div>
+
+    <script src="{% static 'script.js' %}"></script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}Explore Menu | Dhee Quick Bites{% endblock %}
+
+{% block content %}
+<section class="container hero reveal">
+    <div class="hero-grid">
+        <div class="hero-copy">
+            <div class="eyebrow"><i class='bx bx-sparkles'></i> curated for fast, polished ordering</div>
+            <h1>Fresh plates, fast checkout, and a calmer ordering flow.</h1>
+            <p>
+                Browse handcrafted dishes in a premium storefront built to feel more like a modern dining brand than a simple order form.
+            </p>
+            <div class="hero-actions">
+                <a class="button button-primary" href="#menu"><i class='bx bx-restaurant'></i> Browse menu</a>
+                <a class="button button-ghost" href="{% url 'view_cart' %}"><i class='bx bx-cart'></i> Open cart</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="menu" class="container section reveal">
+    <div class="section-head">
+        <div>
+            <h2 class="section-title">Menu highlights</h2>
+            <p class="section-subtitle">Search the menu instantly and add items without losing context.</p>
+        </div>
+    </div>
+    <div class="tools-row">
+        <label class="search-field" for="food-search">
+            <i class='bx bx-search'></i>
+            <input id="food-search" type="search" placeholder="Search dishes, descriptions, or flavor notes...">
+        </label>
+        <div class="chip-row">
+            <span class="chip">Chef curated</span>
+            <span class="chip">Quick pickup</span>
+            <span class="chip">Premium delivery</span>
+        </div>
+    </div>
+
+    <div class="food-container">
+        {% for food in food_items %}
+            <article class="food-card reveal" data-food-card data-food-name="{{ food.name|lower }}" data-food-description="{{ food.description|lower }}">
+                <div class="food-media">
+                    <img src="{{ food.image.url }}" alt="{{ food.name }}">
+                    <div class="food-badge"><i class='bx bx-bowl-hot'></i> Fresh pick</div>
+                </div>
+                <h2>{{ food.name }}</h2>
+                <p>{{ food.description }}</p>
+                <div class="food-meta">
+                    <span class="price-tag">Rs.{{ food.price }}</span>
+                    <span class="muted">Ready to add</span>
+                </div>
+                <button class="button button-primary" type="button" data-food-id="{{ food.id }}">
+                    <i class='bx bx-plus'></i> Add to cart
+                </button>
+            </article>
+        {% empty %}
+            <div class="panel empty-state">
+                <h3 class="panel-title">No menu items yet</h3>
+                <p>Add products in the admin and they will appear here in the new storefront layout.</p>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

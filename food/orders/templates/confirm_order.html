@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirm Order | Dhee Quick Bites{% endblock %}
+
+{% block content %}
+<section class="container section reveal">
+    <div class="section-head">
+        <div>
+            <h1 class="page-title">Confirm order</h1>
+            <p class="section-subtitle">Check the delivery details once more before choosing your payment method.</p>
+        </div>
+        <a class="button button-ghost" href="{% url 'address' %}"><i class='bx bx-edit'></i> Edit address</a>
+    </div>
+
+    <div class="confirm-layout">
+        <section class="confirmation-card reveal">
+            <h2 class="panel-title">Delivery address</h2>
+            <div class="panel address-card confirmation-address">
+                <strong>{{ address.name }}</strong><br>
+                <span class="muted">{{ address.phone }}</span>
+                <p class="muted" style="margin-top:12px;">
+                    {{ address.area }}, {{ address.city }}<br>
+                    {{ address.district }} · {{ address.zipcode }}
+                    {% if address.landmark %}<br>Landmark: {{ address.landmark }}{% endif %}
+                </p>
+            </div>
+        </section>
+
+        <aside class="panel reveal">
+            <h2 class="panel-title">Choose payment</h2>
+            <p class="section-subtitle">Cash on delivery stays in-app. Online payment redirects to Stripe checkout.</p>
+            <div class="field-group" style="margin-top: 16px;">
+                <button type="button" class="button button-secondary" onclick="submitOrder('cod')"><i class='bx bx-wallet'></i> Cash on delivery</button>
+                <button type="button" class="button button-primary" onclick="submitOrder('online')"><i class='bx bx-credit-card'></i> Online payment</button>
+            </div>
+        </aside>
+    </div>
+</section>
+{% endblock %}
